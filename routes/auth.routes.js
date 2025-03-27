@@ -1,7 +1,8 @@
 
-const router = require('express').Router();
 const ApiService = require('../api-service/api.service.js');
 const apiService = new ApiService();
+const bcrypt = require('bcryptjs');
+const router = require('express').Router();
 
 router.get('/login', (req, res) => {
     res.render('auth/login.hbs');
@@ -17,16 +18,26 @@ router.post('/login', async (req, res) => {
         return;
     }
 
-    // CHECK IN THE DATABASE IF USER WITH THE SAME EMAIL EXISTS
+    try {
+        const user = await apiService.findOne({ email });
+        console.log('user from DB:', user)
+        if (!user) {
+            res.status(401).json({ errorMessage: 'User not found' });
+            return;
+        }
 
-    const user = await apiService.findOne({ email });
-    console.log(user)
-    if(!user){
-        res.status(401).json({errorMessage: 'User not found.'});
-        return;
+        else if (bcrypt.compareSync(password, user.password)) {
+            const { id, name, email } = user;
+            const payload = { id, name, email };
+            res.status(200).json({ authToken: payload })
+        }
+        else {
+            res.status(401).json({ errorMessage: 'Incorrect password.' });
+        }
+
+    } catch (err) {
+        res.status(500).json({ errorMessage: 'Internal Server Error.' })
     }
-
-    // Compare the provided password with the one saved in the database
 
 })
 module.exports = router;
