@@ -20,17 +20,16 @@ class ApiService {
 
     async findOne(options = {}) {
         try {
-            const { id, email, name } = options;
 
-            if (id) {
-                return this.findById(id)
+            if (options.id) {
+                return this.findById(options.id)
             }
-            if (email && typeof email === 'string') {
-                const user = this.data.find((user) => user.email.toLowerCase() === email.toLowerCase());
+            if (options.email) {
+                const user = this.data.find((user) => user.email.toLowerCase() === options.email.toLowerCase());
                 return user || null;
             }
-            if (name && typeof name === 'string') {
-                const user = this.data.find((user) => user.name.toLowerCase() === name.toLowerCase());
+            if (options.name) {
+                const user = this.data.find((user) => user.name.toLowerCase() === options.name.toLowerCase());
                 return user || null;
             }
             return null;
@@ -47,11 +46,11 @@ class ApiService {
             if (id) {
                 return this.findById(id)
             }
-            if (email && typeof email === 'string') {
+            if (email) {
                 const user = this.data.find((user) => user.email.toLowerCase() === email.toLowerCase());
                 return user || null;
             }
-            if (name && typeof name === 'string') {
+            if (name) {
                 const user = this.data.find((user) => user.name.toLowerCase() === name.toLowerCase());
                 return user || null;
             }

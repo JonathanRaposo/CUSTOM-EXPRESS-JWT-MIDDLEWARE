@@ -52,12 +52,11 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.get('/user/profile', async (req, res) => {
+router.get('/user/profile', (req, res) => {
     res.render('users/user-profile.hbs')
 
 });
 router.get('/refresh', isAuthenticated, (req, res) => {
-    console.log(req)
     res.status(200).json(req.payload)
 })
 
