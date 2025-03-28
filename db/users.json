@@ -3,18 +3,18 @@
         "id": "abc1",
         "name": "John Doe",
         "email": "john@gmail.com",
-        "password": "$2b$10$IxP0kkPHtWBUs2rkAG2dde2Y1bdd/mqDV3KLbW9OtUqtjP51Uv.pq"
+        "password": "$2b$10$wSa1.ZX5dwbAHlf869pxguJdVUcRFST0/FoLJSSNOXkHUO5qIjz6O"
     },
     {
         "id": "abc12",
         "name": "Peter Thompson",
         "email": "peter@gmail.com",
-        "password": "$2b$10$.ytGLEHaQYajoJPUahthEO7pdRGdKqzWN.cVenGNK2R5AFXa7d65q"
+        "password": "$2b$10$1oBfVXXME6QXuMQXGVs9rujUDPWk3CundHC8igkjvAEUcNNe/LXZ."
     },
     {
         "id": "abc123",
         "name": "Anne Smith",
         "email": "anne@gmail.com",
-        "password": "$2b$10$LMidrY0Ls/U.WgykRcMZxeRwfw7jHdzT.I1Vu7dq22QvqATesFUUS"
+        "password": "$2b$10$.goj4gL5NZ3Y789JGG.NVe/K43R9cQdrf5HS6MkyKeb5sQZQF3TNG"
     }
 ]

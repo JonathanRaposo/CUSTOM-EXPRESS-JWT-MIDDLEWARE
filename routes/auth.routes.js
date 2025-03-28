@@ -1,6 +1,7 @@
 
 const ApiService = require('../api-service/api.service.js');
 const apiService = new ApiService();
+const jwt = require('../custom-jwt-api/index.js');
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 
@@ -27,17 +28,30 @@ router.post('/login', async (req, res) => {
         }
 
         else if (bcrypt.compareSync(password, user.password)) {
+
             const { id, name, email } = user;
             const payload = { id, name, email };
-            res.status(200).json({ authToken: payload })
+
+            const token = jwt.sign(
+                payload,
+                process.env.TOKEN_SECRET,
+                { algorithm: 'HS256', expireIn: '1m' });
+
+            res.status(200).json({ authToken: token })
         }
         else {
             res.status(401).json({ errorMessage: 'Incorrect password.' });
         }
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ errorMessage: 'Internal Server Error.' })
     }
 
+});
+
+router.post('/auth/verify', (req, res) => {
+    console.log(req)
+    res.status(200).json('hit the verify route')
 })
 module.exports = router;

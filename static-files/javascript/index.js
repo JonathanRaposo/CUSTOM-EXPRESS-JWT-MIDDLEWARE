@@ -2,7 +2,7 @@
 const API_URL = 'http://localhost:5000';
 
 const form = document.getElementById('login-form');
-const p = document.querySelector('.error');
+const errorParah = document.querySelector('.error');
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -17,13 +17,21 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify(requestBody)
         });
         console.log('response:', response)
-
         const data = await response.json();
-        console.log('api response:', data)
+        console.log(data)
         if (!response.ok) {
             displayError(data)
             return;
         }
+
+        if (data.authToken) {
+            storeToken(data.authToken);
+        }
+        authenticateUser();
+
+
+
+
 
 
 
