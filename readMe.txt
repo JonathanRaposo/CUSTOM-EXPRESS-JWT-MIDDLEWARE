@@ -15,16 +15,3 @@ Anne Smith
 -password: anne123
 
 
-const bcrypt = require('bcryptjs');
-
-const john_pass = 'john123';
-const peter_pass = 'peter123';
-const anne_pass = 'anne123';
-
-const john_hash = bcrypt.hashSync(john_pass, bcrypt.genSaltSync(10))
-const peter_hash = bcrypt.hashSync(peter_pass, bcrypt.genSaltSync(10))
-const anne_hash = bcrypt.hashSync(anne_pass, bcrypt.genSaltSync(10))
-
-console.log('john hash:', john_hash)
-console.log('peter hash:', peter_hash)
-console.log('anne hash:', anne_hash)
