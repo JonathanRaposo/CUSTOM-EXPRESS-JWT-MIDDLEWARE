@@ -47,12 +47,12 @@ class ApiService {
                 return this.findById(id)
             }
             if (email) {
-                const user = this.data.find((user) => user.email.toLowerCase() === email.toLowerCase());
-                return user || null;
+                const result = this.data.filter((user) => user.email.toLowerCase() === email.toLowerCase());
+                return result.length > 0 ? result : null;
             }
             if (name) {
-                const user = this.data.find((user) => user.name.toLowerCase() === name.toLowerCase());
-                return user || null;
+                const result = this.data.filter((user) => user.name.toLowerCase() === name.toLowerCase());
+                return result.length > 0 ? result : null;
             }
             return null;
         } catch (err) {
