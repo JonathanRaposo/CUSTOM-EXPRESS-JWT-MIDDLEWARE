@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css">
+        {{!-- <script type="module" src="/javascript/logout.js" defer></script> --}}
 </head>
 <body>
      <nav>
@@ -13,12 +14,17 @@
                 <a href="/login">Log In</a>
             </li>
             <li>
-                <form action="/logout" method="POST">
-                <button type="submit">Log out</button>
-                </form>
+                <a href="/user/profile">Profile</a>
+            </li>
+            <li>
+                <button type="submit" id="logout-btn">Log out</button>
+              
             </li>
         </ul>
     </nav>
     {{{body}}}
+       <script type="module" src="/javascript/logout.js"></script>
+
+    {{!-- <script src="/javascript/logout.js"></script> --}}
 </body>
 </html>

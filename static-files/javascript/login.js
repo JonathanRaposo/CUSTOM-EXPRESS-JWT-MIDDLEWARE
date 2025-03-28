@@ -1,8 +1,9 @@
 
+import { navigate, storeToken, displayError } from "./utils.js";
+
 const API_URL = 'http://localhost:5000';
 
 const form = document.getElementById('login-form');
-const errorParah = document.querySelector('.error');
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -16,21 +17,15 @@ form.addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
         });
-        console.log('response:', response)
         const data = await response.json();
-        console.log(data)
         if (!response.ok) {
             displayError(data)
             return;
         }
-
         if (data.authToken) {
             storeToken(data.authToken);
         }
-        authenticateUser();
-
-
-
+        navigate('/user/profile');
 
 
 

@@ -25,7 +25,7 @@ function parseTimeSpan(time) {
 
   const match = time.match(/^(\d+)([smhd])$/);
   if (!match) { return null }
-  const numericValue = parseInt([match[1], 10]);
+  const numericValue = parseInt(match[1], 10);
 
   const unit = match[2];
 
@@ -64,12 +64,17 @@ module.exports = function (payload, secret, options, callback) {
       jwtPayload.iat = Math.floor(Date.now() / 1000);
     }
 
+    let tokenDuration = null;
     if (options.expireIn) {
-      const tokenDuration = parseTimeSpan(options.expireIn);
+      tokenDuration = parseTimeSpan(options.expireIn);
       if (tokenDuration === null) {
         throw new Error('"expiresIn" should be a number (seconds) or a string like "1h", "30m" "1d".')
       }
-      jwtPayload.exp = jwtPayload.iat + tokenDuration;
+
+    }
+    if (tokenDuration !== null) {
+      const baseTime = options.noTimeStamp ? Math.floor(Date.now() / 1000) : jwtPayload.iat;
+      jwtPayload.exp = baseTime + tokenDuration;
     }
 
     // header with default algorithm
@@ -96,7 +101,7 @@ module.exports = function (payload, secret, options, callback) {
 
 
   } catch (err) {
-    if (typeof callback === 'function ') {
+    if (typeof callback === 'function') {
       callback(err, null);
     }
     throw err;

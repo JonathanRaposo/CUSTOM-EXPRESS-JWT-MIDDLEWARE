@@ -13,7 +13,7 @@ module.exports = function (token, secret, options, callback) {
     }
 
     try {
-        console.log('token:', token)
+
         if (!token) {
             throw new Error('jwt must be provided');
         }

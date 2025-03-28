@@ -5,6 +5,8 @@ const jwt = require('../custom-jwt-api/index.js');
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 
+const isAuthenticated = require('../middleware/option-2.js');
+
 router.get('/login', (req, res) => {
     res.render('auth/login.hbs');
 })
@@ -35,7 +37,7 @@ router.post('/login', async (req, res) => {
             const token = jwt.sign(
                 payload,
                 process.env.TOKEN_SECRET,
-                { algorithm: 'HS256', expireIn: '1m' });
+                { algorithm: 'HS256', expireIn: '1h' });
 
             res.status(200).json({ authToken: token })
         }
@@ -50,8 +52,13 @@ router.post('/login', async (req, res) => {
 
 });
 
-router.post('/auth/verify', (req, res) => {
+router.get('/user/profile', async (req, res) => {
+    res.render('users/user-profile.hbs')
+
+});
+router.get('/refresh', isAuthenticated, (req, res) => {
     console.log(req)
-    res.status(200).json('hit the verify route')
+    res.status(200).json(req.payload)
 })
+
 module.exports = router;

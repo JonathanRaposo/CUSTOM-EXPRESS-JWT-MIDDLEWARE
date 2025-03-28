@@ -25,9 +25,13 @@ nav{
     align-items: center;
 
 }
-nav ul li form button{
+nav ul li button{
     background: #e4e0e0;
     border:none;
+   
+}
+nav ul li:hover{
+    cursor: pointer;
 }
 /* ul styles */
 ul{
