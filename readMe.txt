@@ -1,4 +1,4 @@
-I'm using a dummy database since this app is for authentication demonstration only, using a custom jwt api and a express-jwt middleware.Furthermore, The rest-api uses has ApiService class to interact with the database.
+I'm using a dummy database since this app is for authentication demonstration only, using a custom jwt api and  custom express-jwt middleware.Furthermore, The rest-api uses has ApiService class to interact with the database.
 
 Also, since the users have encrypted passwords,you need to type in thefollowing password if you're using one of these users:
 
