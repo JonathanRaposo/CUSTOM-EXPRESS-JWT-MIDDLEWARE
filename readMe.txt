@@ -9,7 +9,7 @@ Key Features
 
 - Frontend Simulation: Handlebars (HBS) templates are used on the frontend with JavaScript to simulate an AJAX-like interaction similar to React.
 
-Also, since the users have encrypted passwords,you need to type in thefollowing password if you're using one of these users:
+Also, since the users have encrypted passwords,you need to type in the following password if you're using one of these users:
 
 John Doe:
 -email: john@gmail.com
