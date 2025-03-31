@@ -1,0 +1,20 @@
+[
+    {
+        "company": "J.R.L Innovations",
+        "url": "http://jrlinnovations.com",
+        "address": "1234 NW 12TH LN, Yonkers, NY",
+        "secret_key": "Et8CZMowbx7cc1S291GKAiuhqL4ZCQjeBUu2Ygof4DI"
+    },
+    {
+        "company": "Tech Fusion",
+        "url": "http://techfusion.com",
+        "address": "5678 SE 45TH ST, Brooklyn, NY",
+        "secret_key": "MNz4WYEOe18iCxjxPMn2m56FZ0ribo3x-CfnKJIEnyM"
+    },
+    {
+        "company": "Innovative Solutions",
+        "url": "http://innovativesolutions.com",
+        "address": "9101 NE 88TH AVE, Queens, NY",
+        "secret_key": "AncR2YPsKNvc2P99bkaQvjEF0eJDRi2-5rrrc9IzTXk"
+    }
+]

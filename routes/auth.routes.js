@@ -1,11 +1,13 @@
 
-const ApiService = require('../api-service/api.service.js');
-const apiService = new ApiService();
-const jwt = require('../custom-jwt-api/index.js');
+const DbService = require('../dbService/index.js');
+const dbService = new DbService();
+const jwt = require('../custom-jwt-middleware-module/custom-jwt-api/index.js');
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 
-const isAuthenticated = require('../middleware/option-2.js');
+const { isAuthenticated } = require('../middleware/jwt.middleware.js');
+const { custom_jwt_middleware: authJWT } = require('../custom-jwt-middleware-module/index.js');
+const { loadSecretKey } = require('../utils/loadSecretKey.js');
 
 router.get('/login', (req, res) => {
     res.render('auth/login.hbs');
@@ -22,8 +24,7 @@ router.post('/login', async (req, res) => {
     }
 
     try {
-        const user = await apiService.findOne({ email });
-        console.log('user from DB:', user)
+        const user = await dbService.findOne({ email });
         if (!user) {
             res.status(401).json({ errorMessage: 'User not found' });
             return;
@@ -31,13 +32,13 @@ router.post('/login', async (req, res) => {
 
         else if (bcrypt.compareSync(password, user.password)) {
 
-            const { id, name, email } = user;
-            const payload = { id, name, email };
+            const { id, name, isAdmin } = user;
+            const payload = { id, name, isAdmin };
 
             const token = jwt.sign(
                 payload,
                 process.env.TOKEN_SECRET,
-                { algorithm: 'HS256', expireIn: '1h' });
+                { algorithm: 'HS256', expiresIn: '1h', issuer: 'http://jrlinnovations.com' });
 
             res.status(200).json({ authToken: token })
         }
@@ -56,8 +57,31 @@ router.get('/user/profile', (req, res) => {
     res.render('users/user-profile.hbs')
 
 });
-router.get('/refresh', isAuthenticated, (req, res) => {
+router.get('/refresh', isAuthenticated, (req, res, next) => {
+    console.log(req)
     res.status(200).json(req.payload)
 })
+// you can configure middleware to allow access to the public
+router.get('/public',
+    authJWT({ secret: loadSecretKey, algorithms: ['HS256'], credentialsRequired: false }),
+    (req, res) => {
+        res.render('public-page.hbs')
+
+    })
+
+router.get('/admin', (req, res) => {
+    res.render('admin/admin-page.hbs');
+})
+
+router.get('/admin/refresh', authJWT({ secret: loadSecretKey, algorithms: ['HS256'] }), (req, res) => {
+    console.log(req)
+    if (!req.auth.isAdmin) {
+        res.status(403).json({ errorMessage: 'Unauthorized. This page is for admin users only.' });
+        return;
+    }
+    res.status(200).json(req.auth)
+})
+
+
 
 module.exports = router;

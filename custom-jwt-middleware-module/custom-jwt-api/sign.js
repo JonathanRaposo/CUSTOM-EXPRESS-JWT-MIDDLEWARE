@@ -63,10 +63,10 @@ module.exports = function (payload, secret, options, callback) {
     if (!options.noTimeStamp) {
       jwtPayload.iat = Math.floor(Date.now() / 1000);
     }
-
+    //expiresIn
     let tokenDuration = null;
-    if (options.expireIn) {
-      tokenDuration = parseTimeSpan(options.expireIn);
+    if (options.expiresIn) {
+      tokenDuration = parseTimeSpan(options.expiresIn);
       if (tokenDuration === null) {
         throw new Error('"expiresIn" should be a number (seconds) or a string like "1h", "30m" "1d".')
       }
@@ -76,7 +76,18 @@ module.exports = function (payload, secret, options, callback) {
       const baseTime = options.noTimeStamp ? Math.floor(Date.now() / 1000) : jwtPayload.iat;
       jwtPayload.exp = baseTime + tokenDuration;
     }
-
+    if (options.sub) {
+      if (typeof options.issuer !== 'string') {
+        throw new Error(`"sub" should a string (e.g., a user ID).`)
+      }
+      jwtPayload.sub = options.sub;
+    }
+    if (options.issuer) {
+      if (typeof options.issuer !== 'string') {
+        throw new Error(`"issuer" should a string (e.g., http://google.com).`)
+      }
+      jwtPayload.iss = options.issuer;
+    }
     // header with default algorithm
     if (options.algorithm && !SUPPORTED_ALGS.includes(options.algorithm)) {
       throw new Error('Algorithm not suppported.')

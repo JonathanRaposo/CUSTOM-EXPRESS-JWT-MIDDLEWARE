@@ -11,26 +11,12 @@ function displayError(data) {
 
 }
 
-function storeToken(token) {
-    localStorage.setItem('authToken', token);
-}
-
-function removeToken() {
-    localStorage.removeItem('authToken');
-}
-
-function logoutUser() {
-    removeToken();
-    navigate('/');
-}
-
-
-async function authenticateUser() {
+document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('authToken');
 
     if (token) {
         try {
-            const response = await fetch(`${API_URL}/refresh`, {
+            const response = await fetch(`${API_URL}/admin/refresh`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` }
             })
@@ -57,5 +43,4 @@ async function authenticateUser() {
         console.log('no token found. Redirecting to login... ')
         navigate('/login');
     }
-}
-export { storeToken, navigate, displayError, authenticateUser, logoutUser };
+})

@@ -1,13 +1,31 @@
+/**
+ * Module dependencies
+ */
+
 const fs = require('fs');
 const path = require('path')
+const tenantsDatabase = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'database', 'companies.json'), 'utf-8'));
+const usersDatabase = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'database', 'users.json'), 'utf-8'));
 
-const usersDatabase = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'db', 'users.json'), 'utf-8'));
+/**
+ * DbService - A Service to interact with the database.
+ * 
+ * @class DbService
+ */
 
-
-class ApiService {
+class DbService {
     constructor() {
         this.data = usersDatabase;
+        this.tenants = tenantsDatabase;
     }
+
+    /**
+     * Finds a user by their unique ID.
+     * 
+     * @param {String} id
+     * @returns {Object|null}
+     * @throws {Error}
+     */
 
     async findById(id) {
         try {
@@ -17,6 +35,17 @@ class ApiService {
             throw new Error(err.message)
         }
     }
+
+    /**
+     * Finds a user by specified options (id, email, or name).
+     * 
+     * @param {Object} options
+     * @param {String} [options.id]
+     * @param {String} [options.email]
+     * @param {String} [options.name]
+     * @returns {Object|null}
+     * @throws {Error}
+     */
 
     async findOne(options = {}) {
         try {
@@ -37,6 +66,18 @@ class ApiService {
             throw new Error(err.message)
         }
     }
+
+    /**
+     * Finds users based on the specified options (id, email,or name).
+     * 
+     * @param {Object} options
+     * @param {String} [options.id]
+     * @param {String} [options.email]
+     * @param {String} [options.name]
+     * @returns {Array|null}
+     * @throws {Error} 
+     */
+
     async find(options = {}) {
         try {
             const { id, email, name } = options;
@@ -60,6 +101,16 @@ class ApiService {
         }
     }
 
+    /**
+     * Retrieved the secret key from a issuer` 
+     * 
+     * @returns {String}
+     */
+
+    async getTenantByIdentifier(issuer) {
+        const result = this.tenants.find((tenant) => tenant.url === issuer);
+        return result || null;
+    }
 }
 
-module.exports = ApiService;
+module.exports = DbService;

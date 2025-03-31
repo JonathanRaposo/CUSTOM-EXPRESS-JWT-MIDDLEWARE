@@ -2,3 +2,4 @@ node_modules
 .env
 middleware/option-1.js
 middleware/option-2.js
+tests
